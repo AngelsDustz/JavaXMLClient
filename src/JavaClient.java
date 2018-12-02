@@ -3,16 +3,20 @@
  */
 
 import utils.NetworkHelper;
+import utils.QueueHelper;
+
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class JavaClient {
     private ConcurrentLinkedQueue   feedQueue;
     private NetworkHelper           networkHelper;
+    private QueueHelper             queueHelper;
     private Runtime                 runtime;
 
     public JavaClient() {
         this.feedQueue      = new ConcurrentLinkedQueue();
         this.networkHelper  = new NetworkHelper(this.feedQueue);
+        this.queueHelper    = new QueueHelper(this.feedQueue);
         this.runtime        = Runtime.getRuntime();
 
         this.runtime.gc(); // Call garbage cleanup.
@@ -20,6 +24,7 @@ public class JavaClient {
 
     public void main() throws InterruptedException {
         this.networkHelper.prepare();
+        this.queueHelper.prepare();
 
         while (true) {
             System.out.println(String.format("Current memory usage: %s", getMemoryUsage()));

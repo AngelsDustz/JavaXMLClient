@@ -32,16 +32,12 @@ public class ServerHandler implements Runnable {
                 if (connection != null) {
                     for (int i=0;i<this.clientInstances.length;i++) {
                         if (this.clientInstances[i].getClientSocket() == null) {
-                            System.out.println(String.format("Found free thread spot at %d !", i));
-
                             this.clientInstances[i].setClientSocket(connection);
                             this.clientInstances[i].setCanRun(true);
-
 
                             if (this.clientThreads[i].getState() == Thread.State.NEW){
                                 this.clientThreads[i].start();
                             }
-
                             break;
                         }
                     }
