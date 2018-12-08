@@ -25,34 +25,24 @@ public class FeedHandler implements Runnable {
 
     @Override
     public void run() {
-        int tickSinceLastMessage = 0;
-
-
         while (this.canRun) {
             if (this.clientSocket != null) {
                 // If we have a client socket.
                 if (this.clientSocket.isConnected()) {
                     // If we have a client connection.
                     byte dataByte[] = null;
+                    int res;
 
                     try {
-                        InputStream stream  = this.clientSocket.getInputStream();
-                        int dataCount       = stream.available();
+                        int dataCount       = this.clientSocket.getInputStream().available();
                         dataByte            = new byte[dataCount];
 
-                        if (dataCount == 0) {
-                            //No data.
-                            tickSinceLastMessage++;
-                        }
-
-                        stream.read(dataByte);
+                        this.clientSocket.getInputStream().read(dataByte);
                     } catch (IOException ioe) {
                         ioe.printStackTrace();
-                        //this.canRun = false;
                     }
 
-                    if (dataByte.length > 0) {
-                        tickSinceLastMessage    = 0;
+                    if (dataByte != null && dataByte.length > 0) {
                         String dataString       = new String(dataByte);
 
                         if (!dataString.equals("")) {
@@ -61,20 +51,19 @@ public class FeedHandler implements Runnable {
                             }
                         }
                     }
+
+                    // Check if connection is alive.
+                    try {
+                        this.clientSocket.getOutputStream().write(1);
+                    } catch (IOException ioe) {
+                        try {
+                            this.clientSocket.close();
+                            this.clientSocket = null;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            }
-
-            if (tickSinceLastMessage >= 7) {
-                // No message for ~2 seconds, assume dead.
-
-                try {
-                    this.clientSocket.close();
-                    this.clientSocket = null;
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-
-                tickSinceLastMessage = 0;
             }
 
             try {

@@ -62,6 +62,10 @@ public class XMLHelper {
                         String nodeName = child.getNodeName();
                         String nodeVal  = child.getTextContent();
 
+                        if (nodeVal.equals("")) {
+                            continue;
+                        }
+
                         switch (nodeName) {
                             case "STN":
                                 this.dataArray[i].setStation(Integer.parseInt(nodeVal));
