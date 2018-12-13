@@ -20,9 +20,11 @@ public class QueueHandler implements Runnable {
             if (this.queue.size() > 0) {
                 // If there is anything to pop.
                 String data = (String) this.queue.poll(); //Force cast into string.
+
                 this.xmlHelper.setData(data);
                 this.databaseHelper.insert(this.xmlHelper);
             } else {
+                // Nothing to do, sleep.
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {

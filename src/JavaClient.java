@@ -23,23 +23,32 @@ public class JavaClient {
     }
 
     public void main() throws InterruptedException {
+        int ticks           = 0;
+        long memoryTotal    = 0;
+
         this.networkHelper.prepare();
         this.queueHelper.prepare();
 
         while (true) {
-            System.out.println(String.format("Current memory usage: %s", getMemoryUsage()));
-            System.out.println(String.format("Current queue size: %d", this.feedQueue.size()));
-            System.out.println(String.format("Current active threads: %d", this.networkHelper.getActiveThreadNr()));
+            ++ticks;
+            memoryTotal = (this.runtime.totalMemory() - this.runtime.freeMemory());
+
+            System.out.print(String.format("Average Runtime Memory Usage: %s | ", getMemoryUsage(memoryTotal)));
+            System.out.print(String.format("Active Threads: %d | ", this.networkHelper.getActiveThreadNr()));
+            System.out.println(String.format("Current Que Size: %d", this.feedQueue.size()));
 
             Thread.sleep(1000);
+
+            if ((ticks % 10) == 0) {
+                this.runtime.gc();
+            }
         }
     }
 
-    private String getMemoryUsage() {
-        long memory = this.runtime.totalMemory() - this.runtime.freeMemory();
+    private String getMemoryUsage(long memory) {
         memory = memory / (1024L*1024L); // Convert to MB.
 
-        return String.format("%d MB.", memory);
+        return String.format("%d MB", memory);
     }
 
     public static void main(String[] args) {

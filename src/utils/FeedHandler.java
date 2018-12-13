@@ -50,17 +50,18 @@ public class FeedHandler implements Runnable {
                                 this.feedQueue.add(dataString);
                             }
                         }
-                    }
-
-                    // Check if connection is alive.
-                    try {
-                        this.clientSocket.getOutputStream().write(1);
-                    } catch (IOException ioe) {
+                    } else {
+                        // If no data received.
+                        // Check if connection is alive.
                         try {
-                            this.clientSocket.close();
-                            this.clientSocket = null;
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            this.clientSocket.getOutputStream().write(1);
+                        } catch (IOException ioe) {
+                            try {
+                                this.clientSocket.close();
+                                this.clientSocket = null;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

@@ -4,9 +4,44 @@ public class Measurement {
     private int     station, winddir;
     private String  date, time;
     private float   temp, dewp, stp, slp, visib, wdsp, prcp, sndp, cldc;
-    private boolean frost, rain, snow, hail, thunder, tornado;
+    private boolean frost, rain, snow, hail, thunder, tornado, valid;
 
     public Measurement() {
+        this.valid = true;
+    }
+
+    public void parseFrshtt(String binaryData) {
+        if (binaryData.length() < 6) {
+            this.valid = false;
+        } else {
+            for (int i = 0; i < binaryData.length(); i++) {
+                Character c = binaryData.charAt(i);
+
+                if (i == 0) {
+                    this.setFrost(c.equals('1'));
+                }
+
+                if (i == 1) {
+                    this.setRain(c.equals('1'));
+                }
+
+                if (i == 2) {
+                    this.setSnow(c.equals('1'));
+                }
+
+                if (i == 3) {
+                    this.setHail(c.equals('1'));
+                }
+
+                if (i == 4) {
+                    this.setThunder(c.equals('1'));
+                }
+
+                if (i == 5) {
+                    this.setTornado(c.equals('1'));
+                }
+            }
+        }
     }
 
     public int getStation() {

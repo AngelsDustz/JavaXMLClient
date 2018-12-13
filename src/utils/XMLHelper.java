@@ -30,7 +30,6 @@ public class XMLHelper {
         this.data       = data;
         this.count      = 0;
         this.dataArray  = null;
-        System.out.println(data);
 
         this.parseData();
     }
@@ -42,7 +41,8 @@ public class XMLHelper {
             is.setCharacterStream(new StringReader(this.data));
             document = this.documentBuilder.parse(is);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("Detected false XML data.");
         }
 
         if (document != null) {
@@ -87,11 +87,49 @@ public class XMLHelper {
                                 this.dataArray[i].setDewp(Float.parseFloat(nodeVal));
                                 break;
 
-                                // @TODO finish me.
+                            case "STP":
+                                this.dataArray[i].setStp(Float.parseFloat(nodeVal));
+                                break;
+
+                            case "SLP":
+                                this.dataArray[i].setSlp(Float.parseFloat(nodeVal));
+                                break;
+
+                            case "VISIB":
+                                this.dataArray[i].setVisib(Float.parseFloat(nodeVal));
+                                break;
+
+                            case "WDSP":
+                                this.dataArray[i].setWdsp(Float.parseFloat(nodeVal));
+                                break;
+
+                            case "PRCP":
+                                this.dataArray[i].setPrcp(Float.parseFloat(nodeVal));
+                                break;
+
+                            case "SNDP":
+                                this.dataArray[i].setSndp(Float.parseFloat(nodeVal));
+                                break;
+
+                            case "FRSHTT":
+                                this.dataArray[i].parseFrshtt(nodeVal);
+                                break;
+
+                            case "CLDC":
+                                this.dataArray[i].setCldc(Float.parseFloat(nodeVal));
+                                break;
+
+                            case "WNDDIR":
+                                this.dataArray[i].setWinddir(Integer.parseInt(nodeVal));
+                                break;
                         }
                     }
                 }
             }
         }
+    }
+
+    public Measurement[] getDataArray() {
+        return dataArray;
     }
 }
