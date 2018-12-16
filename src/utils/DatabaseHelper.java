@@ -113,8 +113,56 @@ public class DatabaseHelper {
         this.measureCache[0] = null;
     }
 
-    private void insertMeasurement(Measurement measurement) {
+    // @TODO fix performance issues?
+    private void insertMeasurement(Measurement measurement) throws SQLException {
         // Insert into database.
+        if (this.dbcon != null) {
+            String query = "INSERT INTO `measurements`" +
+                    "(`unwdmi_id`, `temp`, `dewp`, `stp`, `slp`, `visibility`, `wind_speed`, `prcp`, `sndp`, `cloud`, `wind_dir`, `ev_freeze`, `ev_rain`, `ev_snow`, `ev_hail`, `ev_thunder`, `ev_tornado`, `measured_at`, `created_at`) VALUES " +
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())";
+            PreparedStatement insertStatement = this.dbcon.prepareStatement(query);
+            /*
+                1. unwdmi_id
+                2. temp
+                3. dewp
+                4. stp
+                5. slp
+                6. visibility
+                7. wind_speed
+                8. prcp
+                9. sndp
+                10. cloud
+                11. wind_dir
+                12. ev_freeze
+                13. ev_rain
+                14. ev_snow
+                15. ev_hail
+                16. ev_thunder
+                17. ev_tornado
+                18. measured_at
+             */
+
+            insertStatement.setInt(1, measurement.getStation());
+            insertStatement.setFloat(2, measurement.getTemp());
+            insertStatement.setFloat(3, measurement.getDewp());
+            insertStatement.setFloat(4, measurement.getStp());
+            insertStatement.setFloat(5, measurement.getSlp());
+            insertStatement.setFloat(6, measurement.getVisib());
+            insertStatement.setFloat(7, measurement.getWdsp());
+            insertStatement.setFloat(8, measurement.getPrcp());
+            insertStatement.setFloat(9, measurement.getSndp());
+            insertStatement.setFloat(10, measurement.getCldc());
+            insertStatement.setFloat(11, measurement.getWinddir());
+            insertStatement.setBoolean(12, measurement.isFrost());
+            insertStatement.setBoolean(13, measurement.isRain());
+            insertStatement.setBoolean(14, measurement.isSnow());
+            insertStatement.setBoolean(15, measurement.isHail());
+            insertStatement.setBoolean(16, measurement.isThunder());
+            insertStatement.setBoolean(17, measurement.isTornado());
+            insertStatement.setString(18, measurement.getDate() + " " + measurement.getTime());
+
+            insertStatement.execute();
+        }
     }
 
     private Measurement repairRecord(Measurement measurement) {
