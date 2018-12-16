@@ -1,4 +1,4 @@
-package utils;
+package models;
 
 public class Measurement {
     private int     station, winddir;
@@ -41,6 +41,61 @@ public class Measurement {
                     this.setTornado(c.equals('1'));
                 }
             }
+        }
+    }
+
+    public void checkValidity() {
+        // check if not empty.
+        if (this.station == 0) {
+            this.valid = false;
+        }
+
+        if (this.winddir == 0) {
+            this.valid = false;
+        }
+
+        if (this.date == null || this.date.isEmpty()) {
+            this.valid = false;
+        }
+
+        if (this.time == null || this.time.isEmpty()) {
+            this.valid = false;
+        }
+
+        if (this.temp == 0.0f) {
+            this.valid = false;
+        }
+
+        if (this.dewp == 0.0f) {
+            this.valid = false;
+        }
+
+        if (this.stp == 0.0f) {
+            this.valid = false;
+        }
+
+        if (this.slp == 0.0f) {
+            this.valid = false;
+        }
+
+        if (this.visib == 0.0f) {
+            this.valid = false;
+        }
+
+        if (this.wdsp == 0.0f) {
+            this.valid = false;
+        }
+
+        if (this.prcp == 0.0f) {
+            this.valid = false;
+        }
+
+        if (this.sndp == 0.0f) {
+            this.valid = false;
+        }
+
+        if (this.cldc == 0.0f) {
+            this.valid = false;
         }
     }
 
@@ -194,5 +249,13 @@ public class Measurement {
 
     public void setTornado(boolean tornado) {
         this.tornado = tornado;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 }

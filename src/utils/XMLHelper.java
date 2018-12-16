@@ -1,5 +1,6 @@
 package utils;
 
+import models.Measurement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -123,7 +124,9 @@ public class XMLHelper {
                                 this.dataArray[i].setWinddir(Integer.parseInt(nodeVal));
                                 break;
                         }
-                    }
+                    } // Node loop.
+
+                    this.dataArray[i].checkValidity();
                 }
             }
         }
