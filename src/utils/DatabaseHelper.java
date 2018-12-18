@@ -9,6 +9,8 @@ public class DatabaseHelper {
     private int[] stationCache;
     private Measurement[] measureCache;
     private boolean cacheWarmed;
+    private int currentBatch;
+    private PreparedStatement insertStatement;
 
     public DatabaseHelper() {
         Properties dbinfo;
@@ -18,6 +20,7 @@ public class DatabaseHelper {
         this.stationCache   = new int[8000];
         this.measureCache   = new Measurement[30];
         this.cacheWarmed    = false;
+        this.currentBatch   = 0;
 
         dbinfo.put("user", "root");
         dbinfo.put("password", "root");
@@ -31,9 +34,15 @@ public class DatabaseHelper {
 
         try {
             this.getStationCache();
+            String query = "INSERT INTO `measurements`" +
+                    "(`unwdmi_id`, `temp`, `dewp`, `stp`, `slp`, `visibility`, `wind_speed`, `prcp`, `sndp`, `cloud`, `wind_dir`, `ev_freeze`, `ev_rain`, `ev_snow`, `ev_hail`, `ev_thunder`, `ev_tornado`, `measured_at`, `created_at`) VALUES " +
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())";
+            this.insertStatement = this.dbcon.prepareStatement(query);
+            this.dbcon.setAutoCommit(false);
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
+
     }
 
     /**
@@ -117,10 +126,6 @@ public class DatabaseHelper {
     private void insertMeasurement(Measurement measurement) throws SQLException {
         // Insert into database.
         if (this.dbcon != null) {
-            String query = "INSERT INTO `measurements`" +
-                    "(`unwdmi_id`, `temp`, `dewp`, `stp`, `slp`, `visibility`, `wind_speed`, `prcp`, `sndp`, `cloud`, `wind_dir`, `ev_freeze`, `ev_rain`, `ev_snow`, `ev_hail`, `ev_thunder`, `ev_tornado`, `measured_at`, `created_at`) VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())";
-            PreparedStatement insertStatement = this.dbcon.prepareStatement(query);
             /*
                 1. unwdmi_id
                 2. temp
@@ -142,26 +147,35 @@ public class DatabaseHelper {
                 18. measured_at
              */
 
-            insertStatement.setInt(1, measurement.getStation());
-            insertStatement.setFloat(2, measurement.getTemp());
-            insertStatement.setFloat(3, measurement.getDewp());
-            insertStatement.setFloat(4, measurement.getStp());
-            insertStatement.setFloat(5, measurement.getSlp());
-            insertStatement.setFloat(6, measurement.getVisib());
-            insertStatement.setFloat(7, measurement.getWdsp());
-            insertStatement.setFloat(8, measurement.getPrcp());
-            insertStatement.setFloat(9, measurement.getSndp());
-            insertStatement.setFloat(10, measurement.getCldc());
-            insertStatement.setFloat(11, measurement.getWinddir());
-            insertStatement.setBoolean(12, measurement.isFrost());
-            insertStatement.setBoolean(13, measurement.isRain());
-            insertStatement.setBoolean(14, measurement.isSnow());
-            insertStatement.setBoolean(15, measurement.isHail());
-            insertStatement.setBoolean(16, measurement.isThunder());
-            insertStatement.setBoolean(17, measurement.isTornado());
-            insertStatement.setString(18, measurement.getDate() + " " + measurement.getTime());
+            this.insertStatement.setInt(1, measurement.getStation());
+            this.insertStatement.setFloat(2, measurement.getTemp());
+            this.insertStatement.setFloat(3, measurement.getDewp());
+            this.insertStatement.setFloat(4, measurement.getStp());
+            this.insertStatement.setFloat(5, measurement.getSlp());
+            this.insertStatement.setFloat(6, measurement.getVisib());
+            this.insertStatement.setFloat(7, measurement.getWdsp());
+            this.insertStatement.setFloat(8, measurement.getPrcp());
+            this.insertStatement.setFloat(9, measurement.getSndp());
+            this.insertStatement.setFloat(10, measurement.getCldc());
+            this.insertStatement.setFloat(11, measurement.getWinddir());
+            this.insertStatement.setBoolean(12, measurement.isFrost());
+            this.insertStatement.setBoolean(13, measurement.isRain());
+            this.insertStatement.setBoolean(14, measurement.isSnow());
+            this.insertStatement.setBoolean(15, measurement.isHail());
+            this.insertStatement.setBoolean(16, measurement.isThunder());
+            this.insertStatement.setBoolean(17, measurement.isTornado());
+            this.insertStatement.setString(18, measurement.getDate() + " " + measurement.getTime());
 
-            insertStatement.execute();
+            this.insertStatement.addBatch();
+            this.currentBatch++;
+
+            if (this.currentBatch % 800 == 0) {
+                this.insertStatement.executeBatch();
+                this.dbcon.commit();
+                this.insertStatement.clearBatch();
+                this.currentBatch = 0;
+            }
+
         }
     }
 

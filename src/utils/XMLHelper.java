@@ -4,7 +4,10 @@ import models.Measurement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,6 +25,22 @@ public class XMLHelper {
 
         try {
             this.documentBuilder = dbf.newDocumentBuilder();
+            this.documentBuilder.setErrorHandler(new ErrorHandler() {
+                @Override
+                public void warning(SAXParseException e) throws SAXException {
+                    //
+                }
+
+                @Override
+                public void error(SAXParseException e) throws SAXException {
+                    //
+                }
+
+                @Override
+                public void fatalError(SAXParseException e) throws SAXException {
+                    //
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,8 +61,6 @@ public class XMLHelper {
             is.setCharacterStream(new StringReader(this.data));
             document = this.documentBuilder.parse(is);
         } catch (Exception e) {
-            //e.printStackTrace();
-            System.out.println("Detected false XML data.");
         }
 
         if (document != null) {

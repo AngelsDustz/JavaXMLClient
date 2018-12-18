@@ -21,8 +21,12 @@ public class QueueHandler implements Runnable {
                 // If there is anything to pop.
                 String data = (String) this.queue.poll(); //Force cast into string.
 
-                this.xmlHelper.setData(data); // Give the data to the XML Helper.
-                this.databaseHelper.insert(this.xmlHelper); // Give the XML Helper to the Database Helper.
+                try {
+                    this.xmlHelper.setData(data); // Give the data to the XML Helper.
+                    this.databaseHelper.insert(this.xmlHelper); // Give the XML Helper to the Database Helper.
+                } catch (NullPointerException npe) {
+                    //
+                }
             } else {
                 // Nothing to do, sleep.
                 try {
