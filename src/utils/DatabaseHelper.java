@@ -124,7 +124,6 @@ public class DatabaseHelper {
         this.measureCache[0] = null;
     }
 
-    // @TODO fix performance issues?
     private void insertMeasurement(Measurement measurement) throws SQLException {
         // Insert into database.
         if (this.dbcon != null) {
@@ -171,8 +170,8 @@ public class DatabaseHelper {
             this.insertStatement.addBatch();
             this.currentBatch++;
 
-            if (this.currentBatch >= 1600) {
-                // If we received atleast 800 inserts.
+            // Max performance for 800*2 inserts is 900/tick.
+            if (this.currentBatch >= (800*2)) {
                 this.insertStatement.executeBatch();
                 this.insertStatement.clearBatch();
 
@@ -180,11 +179,11 @@ public class DatabaseHelper {
                 this.insertedBatches++;
             }
 
-            if (this.insertedBatches >= 3) {
+            // Max performance for 4 batches of 800*2 = ~1100/tick
+            if (this.insertedBatches >= 4) {
                 this.dbcon.commit();
                 this.insertedBatches = 0;
             }
-
         }
     }
 

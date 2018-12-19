@@ -26,6 +26,9 @@ public class JavaClient {
         int ticks           = 0;
         long memoryTotal    = 0;
 
+        // Set maximum amount of clients, default 800.
+        this.networkHelper.setClientCount(1600);
+
         this.networkHelper.prepare();
         this.queueHelper.prepare();
 

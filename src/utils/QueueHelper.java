@@ -3,18 +3,26 @@ package utils;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class QueueHelper {
-    private QueueHandler            queueHandler;
-    private Thread                  queueThread;
     private ConcurrentLinkedQueue   feedQueue;
 
     public QueueHelper(ConcurrentLinkedQueue queue) {
         this.feedQueue      = queue;
-        this.queueHandler   = new QueueHandler(this.feedQueue);
+        //this.queueHandler   = new QueueHandler(this.feedQueue);
     }
 
     public void prepare() {
-        this.queueHandler.setCanRun(true);
-        this.queueThread = new Thread(this.queueHandler);
-        this.queueThread.start();
+        // 2 threads can run ~ 900
+        // 5 can run ~ 1500
+        // Tradeoff speed vs memory. 5 do ~ 330MB.
+        int limiter                     = 5;
+        Thread[] queueThreads           = new Thread[limiter];
+        QueueHandler[] queueHandlers    = new QueueHandler[limiter];
+
+        for (int i=0;i<limiter;i++) {
+            queueHandlers[i] = new QueueHandler(this.feedQueue);
+            queueHandlers[i].setCanRun(true);
+            queueThreads[i] = new Thread(queueHandlers[i]);
+            queueThreads[i].start();
+        }
     }
 }
