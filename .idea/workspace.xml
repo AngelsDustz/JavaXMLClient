@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aeba03a5-60b9-4c6c-8c23-fa762be1befd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/JavaClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/DatabaseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/DatabaseHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/QueueHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/QueueHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/NetworkHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/NetworkHelper.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -75,7 +74,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="3" />
-          <entry key="java" value="50" />
+          <entry key="java" value="51" />
           <entry key="md" value="2" />
           <entry key="sql" value="2" />
           <entry key="xml" value="6" />
@@ -85,7 +84,7 @@
         <counts>
           <entry key="CLASS" value="3" />
           <entry key="DBN-SQL" value="1" />
-          <entry key="JAVA" value="50" />
+          <entry key="JAVA" value="51" />
           <entry key="Markdown" value="2" />
           <entry key="SQL" value="1" />
           <entry key="XML" value="6" />
@@ -93,7 +92,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="22889" />
+          <entry key="java" value="24437" />
           <entry key="md" value="303" />
           <entry key="sql" value="1373" />
         </counts>
@@ -101,7 +100,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="DBN-SQL" value="1373" />
-          <entry key="JAVA" value="22889" />
+          <entry key="JAVA" value="24437" />
           <entry key="Markdown" value="303" />
         </counts>
       </usages-collector>
@@ -112,8 +111,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/JavaClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
+            <state relative-caret-position="345">
+              <caret line="43" column="159" selection-start-line="43" selection-start-column="159" selection-end-line="43" selection-end-column="159" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -139,6 +138,20 @@
               <folding>
                 <element signature="e#1467#1468#0" expanded="true" />
                 <element signature="e#1503#1504#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/NetworkHelper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="524">
+              <caret line="80" selection-start-line="80" selection-end-line="80" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#2358#2359#0" expanded="true" />
+                <element signature="e#2391#2392#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -205,7 +218,6 @@
       <list>
         <option value="$PROJECT_DIR$/src/utils/ServerHelper.java" />
         <option value="$PROJECT_DIR$/LICENSE.md" />
-        <option value="$PROJECT_DIR$/src/utils/NetworkHelper.java" />
         <option value="$PROJECT_DIR$/src/utils/ServerHandler.java" />
         <option value="$PROJECT_DIR$/src/utils/asd.java" />
         <option value="$PROJECT_DIR$/src/utils/FeedHandler.java" />
@@ -217,6 +229,7 @@
         <option value="$PROJECT_DIR$/src/utils/QueueHandler.java" />
         <option value="$PROJECT_DIR$/src/utils/DatabaseHelper.java" />
         <option value="$PROJECT_DIR$/src/utils/QueueHelper.java" />
+        <option value="$PROJECT_DIR$/src/utils/NetworkHelper.java" />
         <option value="$PROJECT_DIR$/src/JavaClient.java" />
       </list>
     </option>
@@ -273,7 +286,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544977444985" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545202528777" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/mariadb-java-client-2.3.0.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
@@ -337,7 +350,7 @@
     <frame x="1918" y="0" width="1924" height="1082" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16453674" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16453674" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -349,7 +362,7 @@
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2904911" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2904911" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39916405" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -402,16 +415,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="45" column="20" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/NetworkHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -524,6 +527,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/NetworkHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="524">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#2358#2359#0" expanded="true" />
+            <element signature="e#2391#2392#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/QueueHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
@@ -544,8 +559,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JavaClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
+        <state relative-caret-position="345">
+          <caret line="43" column="159" selection-start-line="43" selection-start-column="159" selection-end-line="43" selection-end-column="159" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />

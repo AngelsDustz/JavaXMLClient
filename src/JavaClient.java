@@ -24,7 +24,6 @@ public class JavaClient {
 
     public void main() throws InterruptedException {
         int ticks           = 0;
-        long memoryTotal    = 0;
 
         // Set maximum amount of clients, default 800.
         this.networkHelper.setClientCount(1600);
@@ -32,19 +31,24 @@ public class JavaClient {
         this.networkHelper.prepare();
         this.queueHelper.prepare();
 
+        int totalThreads    = this.networkHelper.getClientCount();
+        int queueLimit      = this.networkHelper.getQueueLimit();
+
         while (true) {
             ++ticks;
-            memoryTotal = (this.runtime.totalMemory() - this.runtime.freeMemory());
 
-            System.out.print(String.format("Average Runtime Memory Usage: %s | ", getMemoryUsage(memoryTotal)));
-            System.out.print(String.format("Active Threads: %d | ", this.networkHelper.getActiveThreadNr()));
-            System.out.println(String.format("Current Que Size: %d", this.feedQueue.size()));
+            long memory         = this.runtime.totalMemory() - this.runtime.freeMemory();
+            int queueSize       = this.feedQueue.size();
+            int activeThreads   = this.networkHelper.getActiveThreadNr();
+
+            System.out.println(String.format("Memory: %s\t| Queue Size: %d/%d\t|  Threads (Active/Total): %d/%d", getMemoryUsage(memory), queueSize, queueLimit, activeThreads, totalThreads));
+
+            if (ticks >= 15) {
+                this.runtime.gc();
+                ticks = 0;
+            }
 
             Thread.sleep(1000);
-
-            if ((ticks % 10) == 0) {
-                this.runtime.gc();
-            }
         }
     }
 

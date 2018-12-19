@@ -17,6 +17,7 @@ public class NetworkHelper {
     private Thread[]                feedThreads;
     private ServerHandler           serverHandler;  // Listens to incoming connections.
     private Thread                  serverThread;   // The thread in which it runs.
+    private int                     queueLimit;
 
     public NetworkHelper(ConcurrentLinkedQueue queue) {
         this.port           = 7789;
@@ -31,10 +32,10 @@ public class NetworkHelper {
     public void prepare() {
         this.clientInstances    = new FeedHandler[this.clientCount]; // Initialize all clients.
         this.feedThreads        = new Thread[this.clientCount];
-        int limit               = this.clientCount*1000;
+        this.queueLimit         = this.clientCount*10;
 
         for (int i = 0; i < this.clientCount; i++) {
-            this.clientInstances[i]     = new FeedHandler(this.feedQueue, limit); // Create new FeedHandler for client {i}.
+            this.clientInstances[i]     = new FeedHandler(this.feedQueue, this.queueLimit); // Create new FeedHandler for client {i}.
             this.feedThreads[i]         = new Thread(this.clientInstances[i]);
         }
 
@@ -72,5 +73,9 @@ public class NetworkHelper {
 
     public void setClientCount(int clientCount) {
         this.clientCount = clientCount;
+    }
+
+    public int getQueueLimit() {
+        return queueLimit;
     }
 }
