@@ -11,16 +11,18 @@ public class DatabaseHelper {
     private boolean cacheWarmed;
     private int currentBatch;
     private PreparedStatement insertStatement;
+    private int insertedBatches;
 
     public DatabaseHelper() {
         Properties dbinfo;
 
-        this.dbcon          = null;
-        dbinfo              = new Properties();
-        this.stationCache   = new int[8000];
-        this.measureCache   = new Measurement[30];
-        this.cacheWarmed    = false;
-        this.currentBatch   = 0;
+        this.dbcon              = null;
+        dbinfo                  = new Properties();
+        this.stationCache       = new int[8000];
+        this.measureCache       = new Measurement[30];
+        this.cacheWarmed        = false;
+        this.currentBatch       = 0;
+        this.insertedBatches    = 0;
 
         dbinfo.put("user", "root");
         dbinfo.put("password", "root");
@@ -169,11 +171,18 @@ public class DatabaseHelper {
             this.insertStatement.addBatch();
             this.currentBatch++;
 
-            if (this.currentBatch % 800 == 0) {
+            if (this.currentBatch >= 1600) {
+                // If we received atleast 800 inserts.
                 this.insertStatement.executeBatch();
-                this.dbcon.commit();
                 this.insertStatement.clearBatch();
+
                 this.currentBatch = 0;
+                this.insertedBatches++;
+            }
+
+            if (this.insertedBatches >= 3) {
+                this.dbcon.commit();
+                this.insertedBatches = 0;
             }
 
         }

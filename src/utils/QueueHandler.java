@@ -18,19 +18,22 @@ public class QueueHandler implements Runnable {
     public void run() {
         while (this.canRun) {
             if (this.queue.size() > 0) {
-                // If there is anything to pop.
-                String data = (String) this.queue.poll(); //Force cast into string.
+                int loops   = this.queue.size();
 
-                try {
-                    this.xmlHelper.setData(data); // Give the data to the XML Helper.
-                    this.databaseHelper.insert(this.xmlHelper); // Give the XML Helper to the Database Helper.
-                } catch (NullPointerException npe) {
-                    //
+                for (int i=0;i<loops;i++) {
+                    String data = (String) this.queue.poll(); //Force cast into string.
+
+                    try {
+                        this.xmlHelper.setData(data); // Give the data to the XML Helper.
+                        this.databaseHelper.insert(this.xmlHelper); // Give the XML Helper to the Database Helper.
+                    } catch (NullPointerException npe) {
+                        //
+                    }
                 }
             } else {
                 // Nothing to do, sleep.
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(300);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
